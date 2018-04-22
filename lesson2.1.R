@@ -17,6 +17,7 @@ ggplot(aes(x = age, y = friend_count_mean), data = pf.group_by_age) +
   coord_trans()
 
 
+
 ggplot(aes(x = age, y = friend_count), data = pf) +
   geom_point(color = "orange", alpha = .05, position =  position_jitter(h = 0)) +
   geom_line(stat = 'summary', fun.y = quantile, fun.args = list(probs = .1), color = "blue", linetype = 2) +
@@ -77,4 +78,19 @@ pf$dob_all =  (Sys.Date() - as.Date(paste(pf$dob_year, pf$dob_month, pf$dob_day,
 sort(pf$dob_all)
 ggplot(aes(x = dob_all, y = ))
 
-                         
+
+pf$age_with_month <-pf$age + (1 - pf$dob_month / 12)
+
+
+pf.groub_by_months = group_by(pf, age_with_months)
+
+pf.fc_by_age_months = summarise(pf.groub_by_months,
+                                friend_count_mean = mean(friend_count),
+                                friend_count_median = median(friend_count),
+                                n = n())
+arrange(pf.fc_by_age_months, age_with_months)
+
+
+ggplot(aes(y = friend_count_mean, x = age_with_months), data = subset(pf.fc_by_age_months, pf.fc_by_age_months$age_with_months < 71) ) +
+  geom_line() + 
+  geom_smooth(span = 1)
