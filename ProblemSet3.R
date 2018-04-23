@@ -1,4 +1,4 @@
-pf = read.csv("/media/arsanuos/42096389-e9a4-4305-beb5-98c32730190b/R programming/matrials/eda-course-materials/lesson3/pseudo_facebook.tsv", sep="\t")
+pf = read.csv("pseudo_facebook.tsv", sep="\t")
 library(dplyr)
 
 pf.fc_by_age_gender = pf %>%
